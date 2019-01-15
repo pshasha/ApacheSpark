@@ -50,7 +50,6 @@ object dailyRevenueusingDF {
     val result = datechange.groupBy("order_date","order_status").agg(count("order_id").alias("total_orders"),round(sum("order_item_subtotal"),2)
       .alias("Revenue")).orderBy(col("order_date").desc,col("order_status"),col("total_orders"),col("Revenue").desc)
 
-    result.coalesce(1).write.format("json").save("/home/shashank/result")
 
   }
 }
