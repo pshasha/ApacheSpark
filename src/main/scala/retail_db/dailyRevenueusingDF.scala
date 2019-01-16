@@ -33,10 +33,12 @@ object dailyRevenueusingDF {
     sqlContext.setConf("spark.sql.shuffle.partitions","20")
     import sqlContext.implicits._
 
-    val orders = sqlContext.read.schema(ordersSchema).
-      format("csv").load("/home/shashank/retail_db/orders/part-00000")
+    val path = args(1)
 
-    val order_items = sqlContext.read.schema(orderItemsSchema).format("csv").load("/home/shashank/retail_db/order_items/part-00000")
+    val orders = sqlContext.read.schema(ordersSchema).
+      format("csv").load(s"${path}/orders")
+
+    val order_items = sqlContext.read.schema(orderItemsSchema).format("csv").load(s"${path}/order_items")
 
     val filterorders = orders.where("order_status in('CLOSED','COMPLETE')")
 
@@ -50,6 +52,9 @@ object dailyRevenueusingDF {
     val result = datechange.groupBy("order_date","order_status").agg(count("order_id").alias("total_orders"),round(sum("order_item_subtotal"),2)
       .alias("Revenue")).orderBy(col("order_date").desc,col("order_status"),col("total_orders"),col("Revenue").desc)
 
+
+
+    result.show()
 
   }
 }
