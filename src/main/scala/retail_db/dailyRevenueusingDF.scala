@@ -10,7 +10,7 @@ object dailyRevenueusingDF {
   def main(args: Array[String]): Unit = {
     val props = ConfigFactory.load()
     val conf = new SparkConf().
-      setMaster(props.getConfig(args(0)).getString("executionMode")).setAppName("revenueusingDF")
+      setMaster(props.getConfig(args(0)).getString("executionMode")).setAppName("revenueusingDF").set("spark.ui.port","12567")
 
     val sc = new SparkContext(conf)
     val sqlContext = new SQLContext(sc)
