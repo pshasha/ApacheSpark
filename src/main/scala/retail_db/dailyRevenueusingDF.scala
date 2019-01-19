@@ -38,9 +38,9 @@ object dailyRevenueusingDF {
     val path = args(1)
 
     val orders = sqlContext.read.schema(ordersSchema).
-      format("csv").load(s"${path}/orders")
+      format("com.databricks.spark.csv").load(s"${path}/orders")
 
-    val order_items = sqlContext.read.schema(orderItemsSchema).format("csv").load(s"${path}/order_items")
+    val order_items = sqlContext.read.schema(orderItemsSchema).format("com.databricks.spark.csv").load(s"${path}/order_items")
 
     val filterorders = orders.where("order_status in('CLOSED','COMPLETE')")
 
