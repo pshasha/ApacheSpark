@@ -25,7 +25,7 @@ object dailyRevenueusingDF {
 
 
     val orderItemsSchema = StructType(
-      StructField("order_itemw_id",IntegerType,true) ::
+      StructField("order_item_id",IntegerType,true) ::
         StructField("order_item_order_id",IntegerType,true) ::
         StructField("order_item_product_id",IntegerType,true) ::
         StructField("order_item_quantity",IntegerType,true) ::
