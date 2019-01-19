@@ -6,6 +6,8 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.functions._
 import com.typesafe.config._
 
+
+
 object dailyRevenueusingDF {
   def main(args: Array[String]): Unit = {
     val props = ConfigFactory.load()
@@ -23,7 +25,7 @@ object dailyRevenueusingDF {
 
 
     val orderItemsSchema = StructType(
-      StructField("order_item_id",IntegerType,true) ::
+      StructField("order_itemw_id",IntegerType,true) ::
         StructField("order_item_order_id",IntegerType,true) ::
         StructField("order_item_product_id",IntegerType,true) ::
         StructField("order_item_quantity",IntegerType,true) ::
@@ -31,14 +33,14 @@ object dailyRevenueusingDF {
         StructField("order_item_price",FloatType,true):: Nil)
 
     sqlContext.setConf("spark.sql.shuffle.partitions","20")
-    import sqlContext.implicits._
+
 
     val path = args(1)
 
     val orders = sqlContext.read.schema(ordersSchema).
-      format("com.databricks.spark.csv").load(s"${path}/orders")
+      format("csv").load(s"${path}/orders")
 
-    val order_items = sqlContext.read.schema(orderItemsSchema).format("com.databricks.spark.csv").load(s"${path}/order_items")
+    val order_items = sqlContext.read.schema(orderItemsSchema).format("csv").load(s"${path}/order_items")
 
     val filterorders = orders.where("order_status in('CLOSED','COMPLETE')")
 
