@@ -44,7 +44,7 @@ object customerswithnoordersDF {
 
     val data = result.select("customer_lname","customer_fname","order_id")
 
-    val resultset = data.where("order_id is Null").drop("order_id").
+    val lastresult = data.where("order_id is Null").drop("order_id").
       orderBy(col("customer_lname").desc,col("customer_fname").desc)
 
 
